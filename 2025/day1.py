@@ -71,7 +71,5 @@ print(type(a1),a1)
 a2=a1.decode()
 print(a2,type(a2))
 
-#.8.字符串运算符
-#(1)+: 表示两个字符串相加  *n:表示字符串重复输出n便
 
 
