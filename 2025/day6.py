@@ -75,6 +75,72 @@ pe2.introduce()
 print(pe2._Person2__age)
 # 方式二：通过类里面的实例方法调用
 
+# (9)继承
+# 1.格式：class 类名(父类)：
+#           代码块
+class Person3:
+    def eat(self):
+        print("会吃饭")
+    def play(self):
+        print("我贪玩")
+class Girl(Person3):
+    pass                  #不写代码的时候用，防止报错
+girl=Girl()
+# 2.继承具有传递性
+# 3.方法重写：子类定义与父类相同的方法
+# 第一种：覆盖
+class Father:
+    def money(self ):
+        print("有一百万遗产")
+class Son(Father):
+    def money(self ):
+        print("有一千万遗产")
+son=Son()
+son.money()
+# 第二种方式：对父类的方法进行扩展
+# 调用父类的方法：1. 父类名.方法名(self)          2.super().方法名()
+class Father1:
+    def money(self ):
+        print("有2百万遗产")
+class Son1(Father1):
+    def money(self ):
+        Father1.money(self)
+        super().money()
+        print("我买劳斯莱斯")
+son1=Son1()
+son1.money()
+
+# (10)新式类写法
+# class A:        经典类：不由任意内置类派生出来的类
+class Animal:
+    def eat(self):
+        print("chi")
+class Dog(Animal):
+    def play(self):
+        print('wan')       #派生类：有不同于父类的属性和方法
+
+# (11)多继承
+class Father2:
+    def money(self ):
+        print("有一亿财产需要被继承")
+class Mother2:
+    def money(self ):
+        print("有123000财产需要被继承")
+    def apprenance(self):
+        print('需要继承颜值')
+class Son2(Father2,Mother2):
+    pass
+son2=Son2()
+son2.apprenance()
+son2.money()                   #调用继承最近的，也就是Father2
+# 方法搜索顺序:
+# python中内置属性：__mor__查看
+print(Son2.__mro__)
+
+
+
+
+
 
 
 
