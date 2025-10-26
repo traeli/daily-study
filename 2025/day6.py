@@ -36,7 +36,7 @@ People2.cando()
 # (6)构造函数 __init__()
 # 作用：用来做属性初始化或赋值      注意：在实例化对象的时候，会被自动调用
 class Person:
-    def __init__(self,name,age,height):
+    def __init__(self,name,age,height):             #实例属性
         self.name=name
         self.age=age
         self.height=height
@@ -136,6 +136,136 @@ son2.money()                   #调用继承最近的，也就是Father2
 # 方法搜索顺序:
 # python中内置属性：__mor__查看
 print(Son2.__mro__)
+
+# (12)多态
+# 要有继承和方法重写
+class Animal1:
+    def eat(self):
+        print("我会感饭")
+class Dog1(Animal1):
+    def eat(self):
+        print('狗吃狗粮')
+class Cat1(Animal1):
+    def eat(self):
+        print('猫吃猫粮')
+def test1(obj):              #定义一个统一的接口，一个接口多种实现
+    obj.eat()
+dog1=Dog1()
+test1(dog1)
+
+# (13)静态方法
+# 使用@staticmethod修饰
+class AA():
+    @staticmethod
+    def play():
+        print('hhhhhhh')
+#既可以使用对象访问，也可以用类访问
+AA.play()
+aa=AA()
+aa.play()
+# (14)类方法
+# 基本格式:class 类名：
+#              @classmethod
+#              def 方法名(cls,形参)
+#                   代码块
+class A():
+    @classmethod
+    def play(cls):
+        print('hhhhhhh11')
+A.play()
+#当方法中需要使用到类属性(如：访问私有类属性)，需定义类方法
+# 类方法一般配合类属性使用
+
+# (15)实例方法，静态方法，类方法总结
+# 实例方法：方法内部可以访问实例属性和类属性，通过类名.属性名访问类属性
+# 静态方法：方法内部不需要访问类属性和实例属性
+# 类方法：方法内部只需要访问类属性，不可以访问实例属性
+class Person4():
+    name='李志研'   #类属性
+    def __init__(self):
+        self.age=20     # 实例属性
+    def introduce(self):     #实例方法
+        print(f'我是{Person4.name},{self.age}大了')
+    @staticmethod
+    def play():
+        print('我打三角洲')
+        print(Person4.name)    # 可以访问，但没意义
+    @classmethod
+    def hobby(cls):
+        print(Person4.name)   #不可以访问实例方法
+Pe4=Person4()
+Pe4.introduce()
+Person4.play()
+Person4.hobby()
+
+# (16)__new__()和__init__()
+# __new__()：object基类中提供的内置的静态方法
+# 作用：1.在内存中为对象分配空间  2.返回对象的引用
+class Person5():
+    def __init__(self):
+        print("这是__int__(self)方法")
+    def __new__(cls):           #cla代表类本身
+        print('这是__new__(cls)方法')
+        print(cls)
+        return super().__new__(cls)     #方法重写，__new__()里面是保存的对象的引用
+    #注意：重写__new__()，一定要return super().__new__(cls)，不然没返回对象的引用就不能实例化对象
+Pe5=Person5()
+print('Pe5:',Pe5)
+#总结：(1)__new__()是创建对象，__init__()是初始化对象
+#     (2)没__new__()就没__init__()
+
+# (17)单例类
+# 相当于一个特殊的类，这个类只存在一个对象
+# 1.方式
+# (1)通过@classmethod   (2)通过装饰器实现  (3)通过重写__new__()(重点) (4)通过导入模块实现
+# 方式三：通过重写__new__()实现
+# 设计模式：
+# 第一步：定义一个类属性，初始值为None，用来记录单例类对象的引用
+# 第二步：重写__new__()方法
+# 第三步：判断
+# 第四步：返回引用
+class Singpo():
+    obj=None
+    def __new__(cls, *args, **kwargs):
+        if Singpo.obj==None:
+            Singpo.obj=object.__new__(cls)
+        return Singpo.obj
+S1=Singpo()
+print(S1)
+S2=Singpo()
+print(S2)
+
+# (18)魔法方法：在python中，__什么__()都是，魔法方法
+# __doc__()：类的描述信息
+class Doc1():
+    '''类的描述信息'''      #只能用三引号
+    pass
+print(Doc1.__doc__)
+doc1=Doc1()
+# __module__()：表示当前操作所在的模块
+# __class__()：表示当前操作所在的类
+print(doc1.__module__)
+print(doc1.__class__)
+
+# __str__()：必须返回一个字符串
+class Str1():
+    def __str__(self):
+        return '123456'
+str1=Str1()
+print(str1.__str__())
+
+# __call__()：使一个实例对象是一个可调用对象，就像函数那样可以调用
+# 可调用对象：函数、内置函数、类都是，凡是把一队()应用到某个对象身上都是可调用对象
+# 判断可调用对象：callable()
+print(callable(str1))
+class Str2():
+    def __call__(self):
+        pass
+str2=Str2()
+print(callable(str2))
+
+
+
 
 
 
